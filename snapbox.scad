@@ -27,10 +27,10 @@ dim_step_cut = [0.7,0.8]; // [depth, inside_width]
 dim_step_cut_clr = [0.5,0.5]; // [depth, inside_width] clearance
 
 // PCB columns
-pcb_col_top_dia = [5,6]; // top col: top,bot dia
-pcb_col_bot_dia = [5,6]; // bot col: top,bot dia
+pcb_col_top_dia = [4,5]; // top col: top,bot dia
+pcb_col_bot_dia = [4,5]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
-pcb_col_pin_dim = [2,2.5]; // pin dia,height
+pcb_col_pin_dim = [2,2.9]; // pin dia,height
 pcb_col_pin_clr = 0.4; // pin dia clearance
 
 
@@ -96,6 +96,9 @@ module pcb_columns(side=1)
       {
         if(side > 0)
         {
+          // top column
+          translate([0,0,pcb_dim[2]/2+pcb_col_clr/2])
+            cylinder(d1=pcb_col_top_dia[0],d2=pcb_col_top_dia[1],h=dim_box_inner[2]/2-pcb_dim[2]/2-pcb_pos[2],$fn=16);
           // pin
           translate([0,0,pcb_dim[2]/2-pcb_col_pin_dim[1]/2+pcb_col_clr/2])
             cylinder(d=pcb_col_pin_dim[0],h=pcb_col_pin_dim[1],$fn=16,center=true);
