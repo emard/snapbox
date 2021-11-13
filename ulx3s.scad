@@ -79,12 +79,64 @@ module top_add()
   // mounting hole xy-position
   //footx = 2*Thick+FootClrX;
   //footy = Thick+FootClrY;
-  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_inner[2]/2-tube_h/2])
+  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2-tube_h/2])
   {
     // btn hole
     for(i = [0:6])
       translate(button_pos[i])
         cylinder(d=tube_od,h=tube_h,$fn=24,center=true);
+  }
+}
+
+module top_cut()
+{
+  // mounting hole xy-position
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
+  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2])
+  {
+      // 8-led view slit
+      translate([8.89,28.81,0])
+        cube([20,4,10],center=true);
+      // 3-led view slit 
+      translate([25.4,2.54,0])
+        cube([10,4,10],center=true);
+      // display (screen)
+      xadj=-1.0;
+      yadj=1.0;
+/*
+      if(display_type==1) // ST7789 1.3"
+      translate([PCBLength/2-0.2+xadj,PCBWidth/2+2+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([26,26,10],center=true);
+      if(display_type==2) // ST7789 1.54"
+      translate([PCBLength/2-2.5+xadj,PCBWidth/2+4.5+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([30,30,10],center=true);
+      if(display_type==3) // SSD1331 0.96"
+      translate([PCBLength/2-1+xadj,PCBWidth/2-2+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([23,16,10],center=true);
+      if(display_type==4) // SSD1351 1.5"
+      translate([PCBLength/2-1.2+xadj,PCBWidth/2+3+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([30,30,10],center=true);
+      if(display_type==5) // SSD1306 0.96"
+      translate([PCBLength/2-1+xadj,PCBWidth/2-4+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([23,12,10],center=true);
+*/
+
+      // btn hole
+      translate([0,0,-tube_h/2])
+      for(i = [0:6])
+        translate(button_pos[i])
+          cylinder(d=tube_id,h=tube_h+1,$fn=24,center=true);
+    // btn cuts
+    for(i = [0:6])
+      translate([0,0,-tube_h*3/2])
+      translate(button_pos[i])
+        cylinder(d=tube_od+0.5,h=tube_h,$fn=12,center=true);
   }
 }
 
@@ -169,13 +221,14 @@ module boxcut(side=1)
   {
     boxpart(side);
     // cut for print time saving
+    if(0)
     translate([0,3,0])
     minkowski()
     {
       cube(dim_box_inner+[-30,-23,4*dim_box_thick],center=true);
       sphere(d=dim_box_thick,$fn=32);
     }
-    if(1)
+    if(0)
     minkowski()
     {
       cube(dim_box_inner+[-35,-7,4*dim_box_thick],center=true);
@@ -183,9 +236,14 @@ module boxcut(side=1)
     }
     flatcable_cut();
     connector_cut();
+    top_cut();
   }
   if(side > 0)
-    top_add();
+    difference()
+    {
+      top_add();
+      top_cut();
+    }
 }
 
 // side 1:bottom, -1:top
