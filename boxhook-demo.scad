@@ -66,5 +66,7 @@ module boxpart(side=1)
   }
 }
 
-// side -1:bottom, 1:top
+// side 1:bottom, -1:top
+boxpart(side=-1);
 boxpart(side=1);
+
