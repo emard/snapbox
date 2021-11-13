@@ -1,7 +1,8 @@
 include <boxhook.scad>
 
 dim_boxhook = [8,1.2,4];
-dim_notch_boxhook = 0.8;
+dim_notch_boxhook = 0.7;
+dim_depth_boxhook = [0.3,0.3,0.5];
 
 dim_box_inner = [20,15,12]; // inside space
 dim_box_thick = 2;
@@ -32,8 +33,15 @@ module boxpart(side=1)
     translate([0,0,side*dim_box_outer[2]])
       cube(dim_box_outer*2,center=true);
   }
-  // hooks
-  translate([0,dim_box_inner[1]/2,dim_boxhook[1]/2])
+  // hooks x
+  for(i=[-1,1])
+  translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_boxhook[1]/2])
+    rotate([0,0,-90*i])
+    boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
+  // hooks y
+  for(i=[-1,1])
+  translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_boxhook[1]/2])
+    rotate([0,0,90-90*i])
     boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
 }
 
