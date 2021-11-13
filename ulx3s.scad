@@ -56,6 +56,62 @@ module pcb_with_parts()
     
 }
 
+// xyz positions of all buttons
+// relative to lower left hole
+button_pos =
+[
+  [68.58,34.29,0], // btn0
+  [2.54,19.05,0], // btn1
+  [13.97,19.05,0], // btn2
+  [57.15,8.89,0], // btn3
+  [57.15,0,0], // btn4
+  [45.72,0,0], // btn5
+  [68.58,0,0] // btn6  
+];
+
+tube_h=9; // btn tube height
+tube_id=7; // button tube inner diameter
+tube_od=9; // tube outer diameter
+
+// addition to top shell - button tubes
+module top_add()
+{
+  // mounting hole xy-position
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
+  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_inner[2]/2-tube_h/2])
+  {
+    // btn hole
+    for(i = [0:6])
+      translate(button_pos[i])
+        cylinder(d=tube_od,h=tube_h,$fn=24,center=true);
+  }
+}
+
+/*
+module button_pin()
+{
+  pin_d1=6; // top dia
+  pin_h=14; // total height
+  pin_d2=8; // button touch dia
+  pin_h2=2.5; // button touch h
+
+      union()
+      {
+        cylinder(d=pin_d1,h=pin_h,$fn=32);
+        cylinder(d=pin_d2,h=pin_h2,$fn=32);
+      }
+}
+
+module button_pins()
+{
+  translate([Footx,Footy,Height-12])
+  for(i = [0:6])
+    translate(button_pos[i])
+      button_pin();
+}
+*/
+
 module connector_cut()
 {
   // mounting hole x-position
@@ -128,6 +184,8 @@ module boxcut(side=1)
     flatcable_cut();
     connector_cut();
   }
+  if(side > 0)
+    top_add();
 }
 
 // side 1:bottom, -1:top
