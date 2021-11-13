@@ -1,8 +1,8 @@
 include <boxhook.scad>
 
-dim_boxhook = [8,1.2,6];
+dim_boxhook = [8,1.2,5];
 dim_notch_boxhook = 0.7;
-dim_depth_boxhook = [0.3,0.3,0.5];
+dim_depth_boxhook = [0.3,0.3,2];
 dim_hook_tolerance = [0.2,0.2,0.2]; // added to cut
 dim_notch_tolerance = 0.2;
 
@@ -44,13 +44,13 @@ module hooks(cut=0)
 {
       // hooks x
       for(i=[-1,1])
-        translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_boxhook[1]/2])
+        translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,-dim_boxhook[2]/2+dim_depth_boxhook[2]])
           rotate([0,0,-90*i])
           rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=cut*dim_hook_tolerance,notch_add=cut*dim_notch_tolerance);
       // hooks y
       for(i=[-1,1])
-        translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_boxhook[1]/2])
+        translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],-dim_boxhook[2]/2+dim_depth_boxhook[2]])
           rotate([0,0,90-90*i])
           rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=cut*dim_hook_tolerance,notch_add=cut*dim_notch_tolerance);
