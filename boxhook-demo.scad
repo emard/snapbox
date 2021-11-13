@@ -3,7 +3,8 @@ include <boxhook.scad>
 dim_boxhook = [8,1.2,4];
 dim_notch_boxhook = 0.7;
 dim_depth_boxhook = [0.3,0.3,0.5];
-dim_scale_tolerance = [1.1,1.1,1.1]; // cut scaled
+dim_hook_tolerance = [0.2,0.2,0.2]; // cut scaled
+dim_notch_tolerance = 0.2;
 
 dim_box_inner = [20,15,12]; // inside space
 dim_box_thick = 2;
@@ -40,14 +41,12 @@ module boxpart(side=1)
       for(i=[-1,1])
         translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_boxhook[1]/2])
           rotate([0,0,-90*i])
-            scale(dim_scale_tolerance)
-              boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
+            boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=dim_hook_tolerance,notch_add=dim_notch_tolerance);
       // cut hooks y
       for(i=[-1,1])
         translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_boxhook[1]/2])
           rotate([0,0,90-90*i])
-            scale(dim_scale_tolerance)
-              boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
+            boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=dim_hook_tolerance,notch_add=dim_notch_tolerance);
 
     }
   }
@@ -67,6 +66,14 @@ module boxpart(side=1)
 }
 
 // side 1:bottom, -1:top
-boxpart(side=-1);
-boxpart(side=1);
+difference()
+{
+    union()
+    {
+      boxpart(side=-1);
+      boxpart(side=1);
+    }
+  translate([0,10,0])
+    cube([30,20,30],center=true);
+}
 
