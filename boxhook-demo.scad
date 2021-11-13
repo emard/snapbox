@@ -11,7 +11,7 @@ dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2;
 dim_box_round = 3;
 
-dim_step_cut = [0.5,dim_depth_boxhook[1]+dim_hook_clr[1]/2+0.01]; // depth, inside width
+dim_step_cut = [1,dim_depth_boxhook[1]+dim_hook_clr[1]/2+0.01]; // depth, inside width
 dim_step_cut_clr = [0.2,0.2]; // depth, inside width
 
 module box()
@@ -32,23 +32,22 @@ module box()
   }
 }
 
-module step_fit(cut=0)
+module step_fit_inner(cut=0)
 {
   inside_round=dim_box_round/2+dim_box_round/2*dim_step_cut[1]/dim_box_thick;
-  translate([0,0,-dim_step_cut_clr[0]])
+  translate([0,0,-dim_step_cut[0]+dim_step_cut_clr[0]])
     linear_extrude(dim_step_cut[0])
     difference()
     {
       minkowski()
       {
-          square([dim_box_outer[0],dim_box_outer[1]]-[dim_box_round,dim_box_round],center=true);
-          circle(d=dim_box_round,$fn=32);
+          square([dim_box_inner[0],dim_box_inner[1]]+[dim_step_cut[1],dim_step_cut[1]]*2+cut*[dim_step_cut_clr[1],dim_step_cut_clr[1]]-[inside_round,inside_round],center=true);
+          circle(d=inside_round,$fn=32);
       }
-      if(1)
       minkowski()
       {
-          square([dim_box_inner[0],dim_box_inner[1]]+[dim_step_cut[1],dim_step_cut[1]]*2-[inside_round,inside_round],center=true);
-          circle(d=inside_round,$fn=32);
+          square([dim_box_inner[0],dim_box_inner[1]]-[dim_box_round,dim_box_round]/2,center=true);
+          circle(d=dim_box_round/2,$fn=32);
       }
   }
 }
@@ -76,27 +75,25 @@ module boxpart(side=1)
   // half-cut
   difference()
   {
-    union()
-    {
-      difference()
-      {
-        box();
-        //step_fit();
-        translate([0,0,-side*dim_box_outer[2]])
-          cube(dim_box_outer*2,center=true);
-      }
-      //step_fit();
-    }
+    box();
+    translate([0,0,-side*dim_box_outer[2]])
+      cube(dim_box_outer*2,center=true);
     if(side < 0)
+    {
       hooks(cut=1);
+      step_fit_inner(cut=1);
+    }
   }
   if(side > 0)
+  {
     hooks(cut=0);
+    step_fit_inner(cut=0);
+  }
 }
 
 // side 1:bottom, -1:top
 // cut assembly
-if(0)
+if(1)
 difference()
 {
     union()
@@ -109,7 +106,7 @@ difference()
 }
 
 // šromtomg
-if(1)
+if(0)
 {
   boxpart(side=1); // top
   boxpart(side=-1); // bottom
