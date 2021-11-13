@@ -56,6 +56,35 @@ module pcb_with_parts()
     
 }
 
+module connector_cut()
+{
+  // mounting hole x-position
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
+  //cy = 60-8;
+  cy = 0;
+  if(1)
+  translate(pcb_pos+[-pcb_holes_grid[0]/2,dim_box_inner[1]/2+dim_box_thick/2,-8.3])
+  {
+      // cut off for HDMI
+      translate([42.3+0.2,cy,11.5])
+        cube([22,10,13],center=true);
+      // cut off for AUDIO
+      translate([21.47-0.3,cy,11.2+0.5])
+        rotate([90,0,0])
+          cylinder(d=13.5,h=10,$fn=32,center=true);
+      // cut off for 2.5/3.3V jumper
+      translate([27.07+2.54,cy,11])
+        cube([13,10,7],center=true);
+      // cut off for USB1
+      translate([8.89+0.2,cy,9.7])
+        cube([13,10,9],center=true);
+      // cut off for USB2
+      translate([67.31+0.2,cy,9.7])
+        cube([13,10,9],center=true);
+  }    
+}
+
 module flatcable_cut()
 {
   // flat cable connector spacing between centers
@@ -97,12 +126,13 @@ module boxcut(side=1)
       sphere(d=dim_box_thick,$fn=32);
     }
     flatcable_cut();
+    connector_cut();
   }
 }
 
 // side 1:bottom, -1:top
 // cut assembly
-if(1)
+if(0)
 difference()
 {
   %pcb_with_parts();
@@ -121,7 +151,7 @@ difference()
 }
 
 // 3D print
-if(0)
+if(1)
 {
   %pcb_with_parts();
   boxcut(side=1); // top
