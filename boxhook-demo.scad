@@ -15,6 +15,7 @@ module box()
   {
     cube(dim_box_outer,center=true);
     cube(dim_box_inner,center=true);
+    cube(dim_box_inner+[-dim_box_thick*2,-dim_box_thick*2,4*dim_box_thick],center=true);
   }
 }
 
@@ -66,4 +67,4 @@ module boxpart(side=1)
 }
 
 // side -1:bottom, 1:top
-boxpart(side=-1);
+boxpart(side=1);
