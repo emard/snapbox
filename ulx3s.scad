@@ -10,7 +10,7 @@ pcb_hole_dia = 3.2;
 
 // BOX
 
-dim_box_inner = [39*2.54,23*2.54,28.7]; // xyz inside space
+dim_box_inner = [38*2.54,23*2.54,28.7]; // xyz inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // xyz outer dim
 dim_box_round = 3;
@@ -56,6 +56,28 @@ module pcb_with_parts()
     
 }
 
+module flatcable_cut()
+{
+  // flat cable connector spacing between centers
+  flatcable_spacing = 35*2.54;
+  height=40;
+  width=6.8;
+  length=57;
+  notch=2;
+  notch_length=5;
+  translate([0,0,0])
+  {
+    for(i=[-1,1])
+      translate([flatcable_spacing*i/2,0,-height/2-0.01])
+      {
+        cube([width,length,height],center=true);
+        translate([-i*notch,0,0])
+        cube([width,notch_length,height],center=true);
+      }
+  }
+}
+
+
 module boxcut(side=1)
 {
   difference()
@@ -65,14 +87,16 @@ module boxcut(side=1)
     translate([0,3,0])
     minkowski()
     {
-      cube(dim_box_inner+[-7,-23,4*dim_box_thick],center=true);
+      cube(dim_box_inner+[-30,-23,4*dim_box_thick],center=true);
       sphere(d=dim_box_thick,$fn=32);
     }
+    if(1)
     minkowski()
     {
-      cube(dim_box_inner+[-30,-7,4*dim_box_thick],center=true);
+      cube(dim_box_inner+[-35,-7,4*dim_box_thick],center=true);
       sphere(d=dim_box_thick,$fn=32);
-    }    
+    }
+    flatcable_cut();
   }
 }
 
