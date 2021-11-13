@@ -11,8 +11,8 @@ dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2;
 dim_box_round = 3;
 
-dim_step_cut = [1,dim_depth_boxhook[1]+dim_hook_clr[1]/2+0.01]; // depth, inside width
-dim_step_cut_clr = [0.2,0.2]; // depth, inside width
+dim_step_cut = [0.6,0.6]; // depth, inside width
+dim_step_cut_clr = [0.3,0.3]; // depth, inside width
 
 module box()
 {
@@ -35,8 +35,8 @@ module box()
 module step_fit_inner(cut=0)
 {
   inside_round=dim_box_round/2+dim_box_round/2*dim_step_cut[1]/dim_box_thick;
-  translate([0,0,-dim_step_cut[0]+dim_step_cut_clr[0]])
-    linear_extrude(dim_step_cut[0])
+  translate([0,0,-dim_step_cut[0]-cut*dim_step_cut_clr[0]/2+0.01])
+    linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
     difference()
     {
       minkowski()
@@ -47,7 +47,7 @@ module step_fit_inner(cut=0)
       minkowski()
       {
           square([dim_box_inner[0],dim_box_inner[1]]-[dim_box_round,dim_box_round]/2,center=true);
-          circle(d=dim_box_round/2,$fn=32);
+          circle(d=dim_box_round/2-0.01,$fn=32);
       }
   }
 }
@@ -93,7 +93,7 @@ module boxpart(side=1)
 
 // side 1:bottom, -1:top
 // cut assembly
-if(1)
+if(0)
 difference()
 {
     union()
@@ -106,7 +106,7 @@ difference()
 }
 
 // šromtomg
-if(0)
+if(1)
 {
   boxpart(side=1); // top
   boxpart(side=-1); // bottom
