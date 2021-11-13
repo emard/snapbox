@@ -3,7 +3,7 @@ include <boxhook.scad>
 dim_boxhook = [8,1.2,5];
 dim_notch_boxhook = 0.7;
 dim_depth_boxhook = [0.3,0.3,2];
-dim_hook_clr = [0.2,0.2,0.2]; // added to cut
+dim_hook_clr = [0.3,0.3,0.2]; // added to cut
 dim_notch_clr = 0.2;
 
 dim_box_inner = [20,15,12]; // inside space
@@ -11,8 +11,8 @@ dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2;
 dim_box_round = 3;
 
-dim_step_cut = [0.6,0.6]; // depth, inside width
-dim_step_cut_clr = [0.3,0.3]; // depth, inside width
+dim_step_cut = [0.7,0.8]; // depth, inside width
+dim_step_cut_clr = [0.5,0.5]; // depth, inside width
 
 module box()
 {
