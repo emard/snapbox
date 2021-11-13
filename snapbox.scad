@@ -3,7 +3,16 @@
 
 include <boxhook.scad>
 
-dim_box_inner = [20,15,12]; // xyz inside space
+// PCB
+
+pcb_dim = [20,18,1.6];
+pcb_pos = [0,0,-4]; // from center
+pcb_holes_grid = [16,14];
+pcb_hole_dia = 2.2;
+
+// BOX
+
+dim_box_inner = [21,19,12]; // xyz inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // xyz outer dim
 dim_box_round = 3;
@@ -16,6 +25,14 @@ dim_notch_clr = 0.2; // added to diameter for clearance
 
 dim_step_cut = [0.7,0.8]; // [depth, inside_width]
 dim_step_cut_clr = [0.5,0.5]; // [depth, inside_width] clearance
+
+// PCB columns
+pcb_col_top_dia = [5,6]; // top col: top,bot dia
+pcb_col_bot_dia = [5,6]; // bot col: top,bot dia
+pcb_col_clr = 0.4; // pcb col clearance
+pcb_col_pin_dim = [2,2.5]; // pin dia,height
+pcb_col_pin_clr = 0.4; // pin dia clearance
+
 
 module box()
 {
@@ -71,6 +88,21 @@ module hooks(cut=0)
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=cut*dim_hook_clr,notch_add=cut*dim_notch_clr);
 }
 
+module pcb_columns(side=1)
+{
+  for(i=[-1,1])
+    for(j=[-1,1])
+      translate([i*pcb_holes_grid[0]/2,j*pcb_holes_grid[1]/2,0]+pcb_pos)
+      {
+        if(side > 0)
+        {
+          // pin
+          translate([0,0,pcb_dim[2]/2-pcb_col_pin_dim[1]/2+pcb_col_clr/2])
+            cylinder(d=pcb_col_pin_dim[0],h=pcb_col_pin_dim[1],$fn=16,center=true);
+        }
+      }
+}
+
 // side=1 top
 // side=-1 bottom
 module boxpart(side=1)
@@ -92,24 +124,39 @@ module boxpart(side=1)
     hooks(cut=0);
     step_fit_inner(cut=0);
   }
+  pcb_columns(side);
+}
+
+module pcb()
+{
+  translate(pcb_pos)
+  difference()
+  {
+    cube(pcb_dim,center=true);
+    for(i=[-1,1])
+      for(j=[-1,1])
+        translate([i*pcb_holes_grid[0]/2,j*pcb_holes_grid[1]/2,0])
+          cylinder(d=pcb_hole_dia,h=pcb_dim[2]+0.01,$fn=16,center=true);
+  }
 }
 
 // side 1:bottom, -1:top
 // cut assembly
-if(0)
+if(1)
 difference()
 {
-    union()
-    {
+  %pcb();
+  union()
+  {
       boxpart(side=1); // top
       boxpart(side=-1); // bpt
-    }
+  }
   translate([0,10,0])
     cube([30,20,30],center=true);
 }
 
 // šromtomg
-if(1)
+if(0)
 {
   boxpart(side=1); // top
   boxpart(side=-1); // bottom
