@@ -24,8 +24,8 @@ dim_depth_boxhook = [0.3,0.3,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.4]; // xyz added to cut for clearance
 dim_notch_clr = 0.2; // added to diameter for clearance
 
-dim_step_cut = [0.9,0.9]; // [depth, inside_width]
-dim_step_cut_clr = [0.6,0.6]; // [depth, inside_width] clearance
+dim_step_cut = 1*[0.9,0.9]; // [depth, inside_width]
+dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
 pcb_col_top_dia = [4,5]; // top col: top,bot dia
