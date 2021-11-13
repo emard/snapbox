@@ -1,6 +1,17 @@
 // Snap-on Screwless Box
 // Top and Bottom half snap and lock when pushed together
 
+// display_type:
+// 0:none
+// 1:ST7789  240x240 1.3"
+// 2:ST7789  240x240 1.54"
+// 3:SSD1331  96x64  0.96"
+// 4:SSD1351 128x128 1.54"
+// 5:SSD1306 128x64  0.96"
+display_type = 1;
+display_center = [1,0,0]; // XYZ center adjust X +right - left, (v3.1.7 X=1) Y +up -down, Z 0
+display_rotation = 0; // display z-rotation  adjust deg +cw -ccw
+
 // PCB
 
 pcb_dim = [37*2.54,20*2.54,1.6];
@@ -90,9 +101,6 @@ module top_add()
 
 module top_cut()
 {
-  // mounting hole xy-position
-  //footx = 2*Thick+FootClrX;
-  //footy = Thick+FootClrY;
   translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2])
   {
       // 8-led view slit
@@ -101,42 +109,44 @@ module top_cut()
       // 3-led view slit 
       translate([25.4,2.54,0])
         cube([10,4,10],center=true);
-      // display (screen)
-      xadj=-1.0;
-      yadj=1.0;
-/*
-      if(display_type==1) // ST7789 1.3"
-      translate([PCBLength/2-0.2+xadj,PCBWidth/2+2+yadj,0]+display_center)
-        rotate([0,0,-display_rotation])
-          cube([26,26,10],center=true);
-      if(display_type==2) // ST7789 1.54"
-      translate([PCBLength/2-2.5+xadj,PCBWidth/2+4.5+yadj,0]+display_center)
-        rotate([0,0,-display_rotation])
-          cube([30,30,10],center=true);
-      if(display_type==3) // SSD1331 0.96"
-      translate([PCBLength/2-1+xadj,PCBWidth/2-2+yadj,0]+display_center)
-        rotate([0,0,-display_rotation])
-          cube([23,16,10],center=true);
-      if(display_type==4) // SSD1351 1.5"
-      translate([PCBLength/2-1.2+xadj,PCBWidth/2+3+yadj,0]+display_center)
-        rotate([0,0,-display_rotation])
-          cube([30,30,10],center=true);
-      if(display_type==5) // SSD1306 0.96"
-      translate([PCBLength/2-1+xadj,PCBWidth/2-4+yadj,0]+display_center)
-        rotate([0,0,-display_rotation])
-          cube([23,12,10],center=true);
-*/
-
       // btn hole
+      if(1)
       translate([0,0,-tube_h/2])
       for(i = [0:6])
         translate(button_pos[i])
           cylinder(d=tube_id,h=tube_h+1,$fn=24,center=true);
     // btn cuts
+    if(0)
     for(i = [0:6])
       translate([0,0,-tube_h*3/2])
       translate(button_pos[i])
         cylinder(d=tube_od+0.5,h=tube_h,$fn=12,center=true);
+  }
+  translate([0,0,dim_box_outer[2]/2])
+  {
+      // display (screen)
+      xadj=-1.0;
+      yadj=1.0;
+      if(display_type==1) // ST7789 1.3"
+      translate([-0.2+xadj,2+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([26,26,10],center=true);
+      if(display_type==2) // ST7789 1.54"
+      translate([-2.5+xadj,4.5+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([30,30,10],center=true);
+      if(display_type==3) // SSD1331 0.96"
+      translate([-1+xadj,-2+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([23,16,10],center=true);
+      if(display_type==4) // SSD1351 1.5"
+      translate([-1.2+xadj,3+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([30,30,10],center=true);
+      if(display_type==5) // SSD1306 0.96"
+      translate([-1+xadj,-4+yadj,0]+display_center)
+        rotate([0,0,-display_rotation])
+          cube([23,12,10],center=true);
   }
 }
 
