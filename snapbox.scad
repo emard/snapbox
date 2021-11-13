@@ -76,18 +76,21 @@ module step_fit_inner(cut=0)
 
 module hooks(cut=0)
 {
-      // hooks x
-      for(i=[-1,1])
-        translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_box_split-dim_boxhook[2]/2+dim_depth_boxhook[2]])
+  for(k=[-1,1]) // 2 hooks offset from center
+  {
+    // hooks x
+    for(i=[-1,1])
+      translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],k*dim_pos_boxhook[1],dim_box_split-dim_boxhook[2]/2+dim_depth_boxhook[2]])
           rotate([0,0,-90*i])
           rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=cut*dim_hook_clr,notch_add=cut*dim_notch_clr);
-      // hooks y
-      for(i=[-1,1])
-        translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_box_split-dim_boxhook[2]/2+dim_depth_boxhook[2]])
+    // hooks y
+    for(i=[-1,1])
+      translate([k*dim_pos_boxhook[0],i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_box_split-dim_boxhook[2]/2+dim_depth_boxhook[2]])
           rotate([0,0,90-90*i])
           rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=cut*dim_hook_clr,notch_add=cut*dim_notch_clr);
+  }
 }
 
 module pcb()
