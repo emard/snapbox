@@ -44,52 +44,57 @@ module boxpart(side=1)
     box();
     translate([0,0,side*dim_box_outer[2]])
       cube(dim_box_outer*2,center=true);
-    if(side < 0)
+    if(side > 0)
     {
       // cut hooks x
       for(i=[-1,1])
         translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_boxhook[1]/2])
           rotate([0,0,-90*i])
+          rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=dim_hook_tolerance,notch_add=dim_notch_tolerance);
       // cut hooks y
       for(i=[-1,1])
         translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_boxhook[1]/2])
           rotate([0,0,90-90*i])
+          rotate([0,180,0])
             boxhook(dim=dim_boxhook,notch=dim_notch_boxhook,dim_add=dim_hook_tolerance,notch_add=dim_notch_tolerance);
 
     }
   }
-  if(side > 0)
+  if(side < 0)
   {
   // hooks x
   for(i=[-1,1])
   translate([i*dim_box_inner[0]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[0],0,dim_boxhook[1]/2])
     rotate([0,0,-90*i])
+    rotate([0,180,0])
     boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
   // hooks y
   for(i=[-1,1])
   translate([0,i*dim_box_inner[1]/2-i*dim_boxhook[1]/2+i*dim_depth_boxhook[1],dim_boxhook[1]/2])
     rotate([0,0,90-90*i])
+    rotate([0,180,0])
     boxhook(dim=dim_boxhook,notch=dim_notch_boxhook);
   }
 }
 
 // side 1:bottom, -1:top
 // cut assembly
-if(1)
+if(0)
 difference()
 {
     union()
     {
-      boxpart(side=-1);
       boxpart(side=1);
+      boxpart(side=-1);
     }
   translate([0,10,0])
     cube([30,20,30],center=true);
 }
 
-if(0)
+// šromtomg
+if(1)
 {
-boxpart(side=-1); // top
-boxpart(side=1); // bottom
+  boxpart(side=1); // top
+  boxpart(side=-1); // bottom
 }
