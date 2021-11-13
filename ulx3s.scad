@@ -4,13 +4,13 @@
 // PCB
 
 pcb_dim = [37*2.54,20*2.54,1.6];
-pcb_pos = [0,2.8,-4]; // from center
+pcb_pos = [0,2.8,-3.5]; // from center
 pcb_holes_grid = [30,17]*2.54; // assumed center
 pcb_hole_dia = 3.2;
 
 // BOX
 
-dim_box_inner = [38*2.54,23*2.54,28.7]; // xyz inside space
+dim_box_inner = [38*2.54,23*2.54,24.7]; // xyz inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // xyz outer dim
 dim_box_round = 3;
@@ -27,7 +27,7 @@ dim_step_cut = 1*[0.9,0.9]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
-pcb_col_top_dia = [4,5]; // top col: top,bot dia
+pcb_col_top_dia = [5,5.5]; // top col: top,bot dia
 pcb_col_bot_dia = [5,5.5]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
 pcb_col_pin_dim = [3,2.8]; // pin dia,height
