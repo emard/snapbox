@@ -17,10 +17,11 @@ dim_box_round = 3;
 dim_box_split = 1; // split line 0:half +:to top -:to bottom
 
 dim_boxhook = [8,1.2,5]; // xyz hook size
+dim_pos_boxhook = [0,0]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
 dim_notch_boxhook = 0.7; // hook notch dia
 dim_depth_boxhook = [0.3,0.3,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.4]; // xyz added to cut for clearance
-dim_notch_clr = 0.2; // added to diameter for clearance
+dim_notch_clr = 0.3; // added to diameter for clearance
 
 dim_step_cut = 1*[0.9,0.9]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
@@ -72,5 +73,5 @@ difference()
 if(1)
 {
   boxcut(side=1); // top
-  //boxcut(side=-1); // bottom
+  boxcut(side=-1); // bottom
 }
