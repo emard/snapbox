@@ -9,13 +9,22 @@ dim_notch_tolerance = 0.2;
 dim_box_inner = [20,15,12]; // inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2;
+dim_box_round = 3;
 
 module box()
 {
   difference()
   {
-    cube(dim_box_outer,center=true);
-    cube(dim_box_inner,center=true);
+    minkowski()
+    {
+      cube(dim_box_outer-[dim_box_round,dim_box_round,dim_box_round],center=true);
+      sphere(d=dim_box_round,$fn=64);
+    }
+    minkowski()
+    {
+      cube(dim_box_inner-[dim_box_round,dim_box_round,dim_box_round]/2,center=true);
+      sphere(d=dim_box_round/2,$fn=64);
+    }
     cube(dim_box_inner+[-dim_box_thick*2,-dim_box_thick*2,4*dim_box_thick],center=true);
   }
 }
@@ -66,6 +75,8 @@ module boxpart(side=1)
 }
 
 // side 1:bottom, -1:top
+// cut assembly
+if(1)
 difference()
 {
     union()
@@ -77,3 +88,8 @@ difference()
     cube([30,20,30],center=true);
 }
 
+if(0)
+{
+boxpart(side=-1); // top
+boxpart(side=1); // bottom
+}
