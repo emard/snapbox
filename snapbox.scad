@@ -1,8 +1,8 @@
 // Snap-on Screwless Box
 // Top and Bottom half snap and lock when pushed together
 
-include <boxhook.scad>
 
+/*
 // PCB
 
 pcb_dim = [20,18,1.6];
@@ -33,7 +33,9 @@ pcb_col_bot_dia = [4,5]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
 pcb_col_pin_dim = [2,2.8]; // pin dia,height
 pcb_col_pin_clr = [0.5,0.5]; // pin dia,height clearance
+*/
 
+include <boxhook.scad>
 
 module box()
 {
@@ -162,46 +164,4 @@ module boxpart(side=1)
     step_fit_inner(cut=0);
   }
   pcb_columns(side);
-}
-
-
-module boxcut(side=1)
-{
-  difference()
-  {
-    boxpart(side);
-    // cut for print time saving
-    minkowski()
-    {
-      cube(dim_box_inner+[-dim_box_thick*5,-dim_box_thick*5,4*dim_box_thick],center=true);
-      sphere(d=dim_box_thick,$fn=32);
-    }
-  }
-}
-
-// side 1:bottom, -1:top
-// cut assembly
-if(0)
-difference()
-{
-  %pcb();
-  union()
-  {
-      boxcut(side=1); // top
-      boxcut(side=-1); // bpt
-  }
-  if(1)
-  rotate([0,0,0])
-  translate([0,10,0])
-    cube([40,20,40],center=true);
-  if(0)
-  translate([0,0,10.5])
-    cube([40,40,20],center=true);
-}
-
-// šromtomg
-if(1)
-{
-  boxcut(side=1); // top
-  boxcut(side=-1); // bottom
 }
