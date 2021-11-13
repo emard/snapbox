@@ -190,8 +190,13 @@ difference()
       boxcut(side=1); // top
       boxcut(side=-1); // bpt
   }
+  if(1)
+  rotate([0,0,0])
   translate([0,10,0])
-    cube([30,20,30],center=true);
+    cube([40,20,40],center=true);
+  if(0)
+  translate([0,0,10.5])
+    cube([40,40,20],center=true);
 }
 
 // šromtomg
