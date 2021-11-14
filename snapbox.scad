@@ -107,7 +107,7 @@ module step_fit(cut=0,side=1)
 
 module hooks(cut=0)
 {
-  for(k=[-1,1]) // 2 hooks offset from center
+  for(k=[-1,0,1]) // 1,2 or 3 hooks offset from center
   {
     // hooks x
     for(i=[-1,1])
