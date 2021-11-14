@@ -28,13 +28,13 @@ dim_box_round = 3;
 dim_box_split = 2; // split line 0:half +:to top -:to bottom
 
 dim_boxhook = [10,1.2,6]; // xyz hook size
-dim_pos_boxhook = [37,18]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
+dim_pos_boxhook = [38,19]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
 dim_notch_boxhook = 0.7; // hook notch dia
-dim_depth_boxhook = [0.3,0.3,2]; // xyz hook depth
-dim_hook_clr = [0.3,0.3,0.4]; // xyz added to cut for clearance
+dim_depth_boxhook = [0,0,2]; // xyz hook depth
+dim_hook_clr = [0.3,0.3,0.3]; // xyz added to cut for clearance
 dim_notch_clr = 0.4; // added to diameter for clearance
 
-dim_step_cut = 1*[1,0.9]; // [depth, inside_width]
+dim_step_cut = 1*[1.2,0.8]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
@@ -262,7 +262,6 @@ module boxcut(side=1)
 if(0)
 difference()
 {
-  %pcb_with_parts();
   union()
   {
       boxcut(side=1); // top
@@ -277,10 +276,11 @@ difference()
     cube([80,80,200],center=true);
 }
 
+%pcb_with_parts();
+
 // 3D print
 if(1)
 {
-  %pcb_with_parts();
   boxcut(side=1); // top
   boxcut(side=-1); // bottom
 }
