@@ -15,33 +15,33 @@ display_rotation = 0; // display z-rotation  adjust deg +cw -ccw
 // PCB
 
 pcb_dim = [37*2.54,20*2.54,1.6];
-pcb_pos = [0,2.8,-3.5]; // from center
+pcb_pos = [0,2.1,-3.3]; // from center
 pcb_holes_grid = [30,17]*2.54; // assumed center
 pcb_hole_dia = 3.2;
 
 // BOX
 
-dim_box_inner = [38*2.54,23*2.54,24.7]; // xyz inside space
+dim_box_inner = [96,60,24]; // xyz inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // xyz outer dim
 dim_box_round = 5;
 dim_box_split = 2; // split line 0:half +:to top -:to bottom
 
-dim_boxhook = [10,1.2,6]; // xyz hook size
-dim_pos_boxhook = [38,0]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
+dim_boxhook = [10,1.5,6]; // xyz hook size
+dim_pos_boxhook = [38,0]; // xy from center (3 hooks at each side, if zero, then 1 hook per side
 dim_notch_boxhook = 0.9; // hook notch dia
 dim_depth_boxhook = [0,0,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.5]; // xyz added to cut for clearance
-dim_notch_clr = 0.5; // added to diameter for clearance
+dim_notch_clr = 0.4; // added to diameter for clearance
 
-dim_step_cut = 1*[1.2,0.8]; // [depth, inside_width]
-dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
+dim_step_cut = 1*[1.4,0.8]; // [depth, inside_width]
+dim_step_cut_clr = 1*[0.5,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
 pcb_col_top_dia = [5,5.5]; // top col: top,bot dia
 pcb_col_bot_dia = [5,5.5]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
-pcb_col_pin_dim = [2.9,2.8]; // pin dia,height
+pcb_col_pin_dim = [2.8,3.5]; // pin dia,height
 pcb_col_pin_clr = [0.5,0.5]; // pin dia,height clearance
 
 // xyz positions of all buttons
@@ -73,7 +73,7 @@ module pcb_with_parts()
   translate(pcb_pos+[0,-pcb_dim[1]/2+dim_esp32[1]/2,-pcb_dim[2]/2-dim_esp32[2]/2]+pos_esp32)
     cube(dim_esp32,center=true);
   dim_st7789=[20,20,1];
-  pos_st7789=[0,0,15.5];
+  pos_st7789=[0,3,15];
   translate(pcb_pos+pos_st7789)
     cube(dim_st7789,center=true);
   // header pins
@@ -86,7 +86,7 @@ module pcb_with_parts()
   // BTNs
   btn_d=4.5;
   btn_h=5;
-  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,pcb_pos[2]+pcb_dim[2]/2+btn_h/2])
+  translate(pcb_pos+[-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,pcb_dim[2]/2+btn_h/2])
   {
     // btn hole
     for(i = [0:6])
@@ -130,7 +130,7 @@ module top_cut()
       translate(button_pos[i])
         cylinder(d=tube_od+0.5,h=tube_h,$fn=12,center=true);
   }
-  translate([0,0,dim_box_outer[2]/2])
+  translate(pcb_pos+[0,0,dim_box_outer[2]/2])
   {
       // display (screen)
       xadj=-1.0;
@@ -184,11 +184,7 @@ module button_pins()
 
 module connector_cut()
 {
-  // mounting hole x-position
-  //footx = 2*Thick+FootClrX;
-  //footy = Thick+FootClrY;
-  //cy = 60-8;
-  cy = 0;
+  cy = -1;
   if(1)
   translate(pcb_pos+[-pcb_holes_grid[0]/2,dim_box_inner[1]/2+dim_box_thick/2,-8.3])
   {
