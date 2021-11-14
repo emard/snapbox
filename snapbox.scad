@@ -76,7 +76,7 @@ module step_fit(cut=0,side=-1)
       }
     }
   if(side > 0)
-  translate([0,0,dim_box_split-dim_step_cut[0]-cut*dim_step_cut_clr[0]/2+0.01])
+  translate([0,0,dim_box_split-dim_step_cut[0]+0.01])
     linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
     difference()
     {
