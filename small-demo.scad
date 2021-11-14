@@ -54,7 +54,6 @@ module boxcut(side=1)
 if(0)
 difference()
 {
-  %pcb();
   union()
   {
       //translate([0,0,0.0])
@@ -69,6 +68,8 @@ difference()
   translate([0,0,10.5])
     cube([40,40,20],center=true);
 }
+
+%pcb();
 
 // 3D print
 if(1)
