@@ -38,11 +38,11 @@ dim_step_cut = 1*[1.4,0.8]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.5,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
-pcb_col_top_dia = [5,5.5]; // top col: top,bot dia
-pcb_col_bot_dia = [5,5.5]; // bot col: top,bot dia
+pcb_col_top_dia = [5.2,5.8]; // top col: top,bot dia
+pcb_col_bot_dia = [5.2,5.8]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
 pcb_col_pin_dim = [2.8,3.5]; // pin dia,height
-pcb_col_pin_clr = [0.5,0.5]; // pin dia,height clearance
+pcb_col_pin_clr = [0.7,1.0]; // pin dia,height clearance
 
 // xyz positions of all buttons
 // relative to lower left hole
