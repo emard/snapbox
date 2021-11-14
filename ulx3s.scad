@@ -212,7 +212,7 @@ module flatcable_cut()
   length=57;
   notch=2;
   notch_length=5;
-  translate([0,0,0])
+  translate(pcb_pos+[0,0,-2])
   {
     for(i=[-1,1])
       translate([flatcable_spacing*i/2,0,-height/2-0.01])
