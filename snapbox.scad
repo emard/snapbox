@@ -56,7 +56,7 @@ module box()
 
 // cut   0:not cut, 1:cut
 // side -1:inside, 1:outside
-module step_fit(cut=0,side=-1)
+module step_fit(cut=0,side=1)
 {
   inside_round=dim_box_round/2+dim_box_round/2*dim_step_cut[1]/dim_box_thick;
   if(side < 0)
@@ -179,7 +179,7 @@ module pcb_columns(side=1)
 // side=-1 bottom
 // stepside=1 outer step (force compensation, less bending, more fragile)
 // stepside=-1 inner step (less fragile, more bending)
-module boxpart(side=1,stepside=-1)
+module boxpart(side=1,stepside=1)
 {
   // half-cut
   difference()

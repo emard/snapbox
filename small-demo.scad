@@ -51,7 +51,7 @@ module boxcut(side=1)
 
 // side 1:bottom, -1:top
 // cut assembly
-if(1)
+if(0)
 difference()
 {
   %pcb();
@@ -71,7 +71,7 @@ difference()
 }
 
 // 3D print
-if(0)
+if(1)
 {
   boxcut(side=1); // top
   boxcut(side=-1); // bottom
