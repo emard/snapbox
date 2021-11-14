@@ -27,20 +27,20 @@ dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // 
 dim_box_round = 5;
 dim_box_split = 2; // split line 0:half +:to top -:to bottom
 
-dim_boxhook = [10,1.5,6]; // xyz hook size
+dim_boxhook = [10,2,6]; // xyz hook size
 dim_pos_boxhook = [38,0]; // xy from center (3 hooks at each side, if zero, then 1 hook per side
 dim_notch_boxhook = 0.9; // hook notch dia
 dim_depth_boxhook = [0,0,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.5]; // xyz added to cut for clearance
 dim_notch_clr = 0.3; // added to diameter for clearance
 
-dim_step_cut = 1*[1.4,0.8]; // [depth, inside_width]
-dim_step_cut_clr = 1*[0.5,0.5]; // [depth, inside_width] clearance
+dim_step_cut = 1*[1.5,0.8]; // [depth, inside_width]
+dim_step_cut_clr = 1*[0.5,0.7]; // [depth, inside_width] clearance
 
 // PCB columns
 pcb_col_top_dia = [5.2,5.8]; // top col: top,bot dia
 pcb_col_bot_dia = [5.2,5.8]; // bot col: top,bot dia
-pcb_col_clr = 0.3; // pcb col clearance
+pcb_col_clr = 0.4; // pcb col clearance
 pcb_col_pin_dim = [2.8,3.5]; // pin dia,height
 pcb_col_pin_clr = [0.7,1.0]; // pin dia,height clearance
 
