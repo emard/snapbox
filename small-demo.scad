@@ -24,7 +24,7 @@ dim_hook_clr = [0.3,0.3,0.3]; // xyz added to cut for clearance
 dim_notch_clr = 0.4; // added to diameter for clearance
 
 dim_step_cut = 1*[0.9,0.9]; // [depth, inside_width]
-dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
+dim_step_cut_clr = 1*[0.2,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
 pcb_col_top_dia = [4,5]; // top col: top,bot dia
@@ -57,7 +57,7 @@ difference()
   %pcb();
   union()
   {
-      //translate([0,0,0])
+      //translate([0,0,0.0])
       boxcut(side=1); // top
       boxcut(side=-1); // bpt
   }

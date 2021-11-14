@@ -60,8 +60,8 @@ module step_fit(cut=0,side=-1)
 {
   inside_round=dim_box_round/2+dim_box_round/2*dim_step_cut[1]/dim_box_thick;
   if(side < 0)
-  translate([0,0,dim_box_split-dim_step_cut[0]-cut*dim_step_cut_clr[0]/2+0.01])
-    linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
+  translate([0,0,dim_box_split-dim_step_cut[0]-cut*dim_step_cut_clr[0]+0.01])
+    linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0])
     difference()
     {
       minkowski()
@@ -77,6 +77,7 @@ module step_fit(cut=0,side=-1)
     }
   if(side > 0)
   translate([0,0,dim_box_split-dim_step_cut[0]+0.01])
+  {
     linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
     difference()
     {
@@ -97,6 +98,11 @@ module step_fit(cut=0,side=-1)
           circle(d=inside_round,$fn=32);
       }
     }
+    // clearance cut
+    if(cut > 0.5)
+      translate([0,0,dim_box_outer[2]/2+dim_step_cut[0]-dim_step_cut_clr[0]])
+        cube(dim_box_outer,center=true);
+  }
 }
 
 module hooks(cut=0)
@@ -173,7 +179,7 @@ module pcb_columns(side=1)
 // side=-1 bottom
 // stepside=1 outer step (force compensation, less bending, more fragile)
 // stepside=-1 inner step (less fragile, more bending)
-module boxpart(side=1,stepside=1)
+module boxpart(side=1,stepside=-1)
 {
   // half-cut
   difference()
