@@ -32,15 +32,15 @@ dim_pos_boxhook = [38,0]; // xy from center (3 hooks at each side, if zero, then
 dim_notch_boxhook = 0.9; // hook notch dia
 dim_depth_boxhook = [0,0,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.5]; // xyz added to cut for clearance
-dim_notch_clr = 0.4; // added to diameter for clearance
+dim_notch_clr = 0.3; // added to diameter for clearance
 
 dim_step_cut = 1*[1.4,0.8]; // [depth, inside_width]
-dim_step_cut_clr = 1*[0.5,0.6]; // [depth, inside_width] clearance
+dim_step_cut_clr = 1*[0.5,0.5]; // [depth, inside_width] clearance
 
 // PCB columns
 pcb_col_top_dia = [5.2,5.8]; // top col: top,bot dia
 pcb_col_bot_dia = [5.2,5.8]; // bot col: top,bot dia
-pcb_col_clr = 0.4; // pcb col clearance
+pcb_col_clr = 0.3; // pcb col clearance
 pcb_col_pin_dim = [2.8,3.5]; // pin dia,height
 pcb_col_pin_clr = [0.7,1.0]; // pin dia,height clearance
 
@@ -98,7 +98,7 @@ module pcb_with_parts()
 // addition to top shell - button tubes
 module top_add()
 {
-  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2-tube_h/2])
+  translate(pcb_pos+[-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,-pcb_pos[2]+dim_box_outer[2]/2-tube_h/2])
   {
     // btn hole
     for(i = [0:6])
@@ -109,7 +109,7 @@ module top_add()
 
 module top_cut()
 {
-  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2])
+  translate(pcb_pos+[-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,-pcb_pos[2]+dim_box_outer[2]/2])
   {
       // 8-led view slit
       translate([8.89,28.81,0])
@@ -117,18 +117,11 @@ module top_cut()
       // 3-led view slit 
       translate([25.4,2.54,0])
         cube([10,4,10],center=true);
-      // btn hole
-      if(1)
+      // btn holes
       translate([0,0,-tube_h/2])
       for(i = [0:6])
         translate(button_pos[i])
           cylinder(d=tube_id,h=tube_h+1,$fn=24,center=true);
-    // btn cuts
-    if(0)
-    for(i = [0:6])
-      translate([0,0,-tube_h*3/2])
-      translate(button_pos[i])
-        cylinder(d=tube_od+0.5,h=tube_h,$fn=12,center=true);
   }
   translate(pcb_pos+[0,0,dim_box_outer[2]/2])
   {
