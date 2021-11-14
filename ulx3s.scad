@@ -31,8 +31,8 @@ dim_boxhook = [10,1.2,6]; // xyz hook size
 dim_pos_boxhook = [38,0]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
 dim_notch_boxhook = 0.9; // hook notch dia
 dim_depth_boxhook = [0,0,2]; // xyz hook depth
-dim_hook_clr = [0.3,0.3,0.3]; // xyz added to cut for clearance
-dim_notch_clr = 0.4; // added to diameter for clearance
+dim_hook_clr = [0.3,0.3,0.5]; // xyz added to cut for clearance
+dim_notch_clr = 0.5; // added to diameter for clearance
 
 dim_step_cut = 1*[1.2,0.8]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
@@ -43,6 +43,24 @@ pcb_col_bot_dia = [5,5.5]; // bot col: top,bot dia
 pcb_col_clr = 0.4; // pcb col clearance
 pcb_col_pin_dim = [2.9,2.8]; // pin dia,height
 pcb_col_pin_clr = [0.5,0.5]; // pin dia,height clearance
+
+// xyz positions of all buttons
+// relative to lower left hole
+button_pos =
+[
+  [68.58,34.29,0], // btn0
+  [2.54,19.05,0], // btn1
+  [13.97,19.05,0], // btn2
+  [57.15,8.89,0], // btn3
+  [57.15,0,0], // btn4
+  [45.72,0,0], // btn5
+  [68.58,0,0] // btn6  
+];
+
+tube_h=9; // btn tube height
+tube_id=7; // button tube inner diameter
+tube_od=9; // tube outer diameter
+
 
 include <snapbox.scad>
 
@@ -65,32 +83,21 @@ module pcb_with_parts()
       for(j=[0:19]) // each pin
         translate(pcb_pos+[(17.5*k+i)*2.54,(j-9.5)*2.54,-3.5])
           cube(pin_dim,center=true);
-    
+  // BTNs
+  btn_d=4.5;
+  btn_h=5;
+  translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,pcb_pos[2]+pcb_dim[2]/2+btn_h/2])
+  {
+    // btn hole
+    for(i = [0:6])
+      translate(button_pos[i])
+        cylinder(d=btn_d,h=btn_h,$fn=24,center=true);
+  }    
 }
-
-// xyz positions of all buttons
-// relative to lower left hole
-button_pos =
-[
-  [68.58,34.29,0], // btn0
-  [2.54,19.05,0], // btn1
-  [13.97,19.05,0], // btn2
-  [57.15,8.89,0], // btn3
-  [57.15,0,0], // btn4
-  [45.72,0,0], // btn5
-  [68.58,0,0] // btn6  
-];
-
-tube_h=9; // btn tube height
-tube_id=7; // button tube inner diameter
-tube_od=9; // tube outer diameter
 
 // addition to top shell - button tubes
 module top_add()
 {
-  // mounting hole xy-position
-  //footx = 2*Thick+FootClrX;
-  //footy = Thick+FootClrY;
   translate([-pcb_holes_grid[0]/2,-pcb_holes_grid[1]/2,dim_box_outer[2]/2-tube_h/2])
   {
     // btn hole
