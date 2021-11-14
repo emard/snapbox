@@ -25,16 +25,16 @@ dim_box_inner = [38*2.54,23*2.54,24.7]; // xyz inside space
 dim_box_thick = 2;
 dim_box_outer = dim_box_inner+[dim_box_thick,dim_box_thick,dim_box_thick]*2; // xyz outer dim
 dim_box_round = 3;
-dim_box_split = 0; // split line 0:half +:to top -:to bottom
+dim_box_split = 2; // split line 0:half +:to top -:to bottom
 
-dim_boxhook = [10,1.2,5]; // xyz hook size
+dim_boxhook = [10,1.2,6]; // xyz hook size
 dim_pos_boxhook = [37,18]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
 dim_notch_boxhook = 0.7; // hook notch dia
 dim_depth_boxhook = [0.3,0.3,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.4]; // xyz added to cut for clearance
 dim_notch_clr = 0.3; // added to diameter for clearance
 
-dim_step_cut = 1*[0.9,0.9]; // [depth, inside_width]
+dim_step_cut = 1*[1,0.9]; // [depth, inside_width]
 dim_step_cut_clr = 1*[0.6,0.6]; // [depth, inside_width] clearance
 
 // PCB columns
@@ -55,14 +55,15 @@ module pcb_with_parts()
   translate(pcb_pos+[0,-pcb_dim[1]/2+dim_esp32[1]/2,-pcb_dim[2]/2-dim_esp32[2]/2]+pos_esp32)
     cube(dim_esp32,center=true);
   dim_st7789=[20,20,1];
-  pos_st7789=[0,0,17];
+  pos_st7789=[0,0,15.5];
   translate(pcb_pos+pos_st7789)
     cube(dim_st7789,center=true);
-  pin_dim=[0.5,0.5,12];
+  // header pins
+  pin_dim=[0.5,0.5,11];
   for(k=[-1,1]) // sides
     for(i=[-0.5,0.5]) // 2 pin rows
       for(j=[0:19]) // each pin
-        translate(pcb_pos+[(17.5*k+i)*2.54,(j-9.5)*2.54,-4])
+        translate(pcb_pos+[(17.5*k+i)*2.54,(j-9.5)*2.54,-3.5])
           cube(pin_dim,center=true);
     
 }
@@ -272,8 +273,8 @@ difference()
   translate([0,100,0])
     cube([200,200,200],center=true);
   if(0)
-  translate([0,0,10.5])
-    cube([40,40,20],center=true);
+  translate([0,0,100.5])
+    cube([80,80,200],center=true);
 }
 
 // 3D print
