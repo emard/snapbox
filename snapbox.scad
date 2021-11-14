@@ -54,9 +54,12 @@ module box()
   }
 }
 
-module step_fit_inner(cut=0)
+// cut   0:not cut, 1:cut
+// side -1:inside, 1:outside
+module step_fit(cut=0,side=-1)
 {
   inside_round=dim_box_round/2+dim_box_round/2*dim_step_cut[1]/dim_box_thick;
+  if(side < 0)
   translate([0,0,dim_box_split-dim_step_cut[0]-cut*dim_step_cut_clr[0]/2+0.01])
     linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
     difference()
@@ -71,7 +74,29 @@ module step_fit_inner(cut=0)
           square([dim_box_inner[0],dim_box_inner[1]]-[dim_box_round,dim_box_round]/2,center=true);
           circle(d=dim_box_round/2-0.01,$fn=32);
       }
-  }
+    }
+  if(side > 0)
+  translate([0,0,dim_box_split-dim_step_cut[0]-cut*dim_step_cut_clr[0]/2+0.01])
+    linear_extrude(dim_step_cut[0]+cut*dim_step_cut_clr[0]/2)
+    difference()
+    {
+      minkowski()
+      {
+          square([dim_box_outer[0],dim_box_outer[1]]
+                -[dim_box_round,dim_box_round],
+                center=true);
+          circle(d=dim_box_round,$fn=32);
+      }
+      minkowski()
+      {
+          square([dim_box_outer[0],dim_box_outer[1]]
+                -[dim_step_cut[1],dim_step_cut[1]]*2
+                -cut*[dim_step_cut_clr[1],dim_step_cut_clr[1]]
+                -[inside_round,inside_round],
+                center=true);
+          circle(d=inside_round,$fn=32);
+      }
+    }
 }
 
 module hooks(cut=0)
@@ -146,7 +171,9 @@ module pcb_columns(side=1)
 
 // side=1 top
 // side=-1 bottom
-module boxpart(side=1)
+// stepside=1 outer step (force compensation, less bending, more fragile)
+// stepside=-1 inner step (less fragile, more bending)
+module boxpart(side=1,stepside=1)
 {
   // half-cut
   difference()
@@ -158,13 +185,13 @@ module boxpart(side=1)
     if(side < 0)
     {
       hooks(cut=1);
-      step_fit_inner(cut=1);
+      step_fit(cut=1,side=stepside);
     }
   }
   if(side > 0)
   {
     hooks(cut=0);
-    step_fit_inner(cut=0);
+    step_fit(cut=0,side=stepside);
   }
   pcb_columns(side);
 }
