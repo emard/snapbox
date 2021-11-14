@@ -28,7 +28,7 @@ dim_box_round = 5;
 dim_box_split = 2; // split line 0:half +:to top -:to bottom
 
 dim_boxhook = [10,1.2,6]; // xyz hook size
-dim_pos_boxhook = [38,19]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
+dim_pos_boxhook = [38,0]; // xy from center (2 hooks at each side, total 8 hooks), if zero, then 4 hooks
 dim_notch_boxhook = 0.9; // hook notch dia
 dim_depth_boxhook = [0,0,2]; // xyz hook depth
 dim_hook_clr = [0.3,0.3,0.3]; // xyz added to cut for clearance
