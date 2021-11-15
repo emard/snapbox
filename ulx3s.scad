@@ -19,6 +19,8 @@ pcb_pos = [0,2.1,-3.3]; // from center
 pcb_holes_grid = [30,17]*2.54; // assumed center
 pcb_hole_dia = 3.2;
 
+screw_hole = 1*[1.8,8]; // d,h hole screws to hold box
+
 // BOX
 
 dim_box_inner = [96,60,24]; // xyz inside space
@@ -203,6 +205,15 @@ module connector_cut()
   }    
 }
 
+
+module screws_cut()
+{
+  for(i=[-1,1])
+    for(j=[-1,1])
+      translate([i*pcb_holes_grid[0]/2,j*pcb_holes_grid[1]/2,-pcb_pos[2]-dim_box_outer[2]/2]+pcb_pos)
+        cylinder(d=screw_hole[0],h=screw_hole[1],$fn=12);
+}
+
 module flatcable_cut()
 {
   // flat cable connector spacing between centers
@@ -246,6 +257,7 @@ module boxcut(side=1)
     }
     flatcable_cut();
     connector_cut();
+    screws_cut();
     top_cut();
   }
   if(side > 0)
