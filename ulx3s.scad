@@ -114,8 +114,11 @@ module top_cut()
       // 8-led view slit
       translate([8.89,28.81,0])
         cube([20,4,10],center=true);
-      // 3-led view slit 
+      // 3-led view slit
       translate([25.4,2.54,0])
+        cube([10,4,10],center=true);
+      // DIP switch slit
+      translate([57.15,34.29,0])
         cube([10,4,10],center=true);
       // btn holes
       translate([0,0,-tube_h/2])
