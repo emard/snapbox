@@ -1,6 +1,37 @@
 // Snap-on Screwless Box
 // Top and Bottom half snap and lock when pushed together
 
+// Prusa-Slicer: most settings PET-G default
+
+// Print settings -> Layers and settings
+// First layer height: 0.3 mm
+// External perimeters first: [x]
+
+// Print settings -> Skirt and brim
+// Skirt height: 0 layers
+
+// Print settings -> Advanced
+// Extrusion width
+// first layer: 0
+// Overlap
+// Infill/perimeters overlap: 2%
+// Slicing
+// Elephant foot compensation: 0
+
+// Filament settings -> Filament
+// Temperature
+// Nozzle First layer: 245'C, Other layers: 240'C
+// Bed    First layer:  90'C, Other layers:  80'C
+
+// Filament settings -> Advanced
+// Filament properties
+// Filament type: PET
+
+// Printer settings -> Extruder1
+// Retraction
+// Length: 2.5 mm
+// Lift Z: 0.1 mm
+
 // display_type:
 // 0:none
 // 1:ST7789  240x240 1.3"
